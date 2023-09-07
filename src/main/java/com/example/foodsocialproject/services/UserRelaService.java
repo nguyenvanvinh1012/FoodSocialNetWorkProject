@@ -20,7 +20,7 @@ public class UserRelaService implements TableService{
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         Long count = userRelaRepository.countById(id);
         if (count == null || count == 0) {
             throw new ResourceNotFoundException("Không tìm thấy ID: " + id);
@@ -29,7 +29,7 @@ public class UserRelaService implements TableService{
     }
 
     @Override
-    public Optional get(UUID id) {
+    public Optional get(Long id) {
         Optional<UserRela> result = userRelaRepository.findById(id);
         if (result.isPresent()){
             return result;

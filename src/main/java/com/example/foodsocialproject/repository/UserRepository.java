@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<Users, UUID> {
+public interface UserRepository extends JpaRepository<Users, Long> {
 
-    Long countById(UUID id);
+    Long countById(Long id);
 
     Optional<Users> findByEmail(String email);
 }

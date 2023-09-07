@@ -1,6 +1,7 @@
 package com.example.foodsocialproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -21,25 +22,38 @@ import java.util.UUID;
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "VARCHAR(36)")
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "Tên không được để trống!")
     @Column(name = "full_name", length = 127)
     private String fullName;
 
+    @NotBlank(message = "Giới tính không được để trống!")
+    @Column(name = "gender")
+    private String gender;
+
     @NotBlank(message = "Email không được để trống!")
-    @Email(message = "Email is not valid")
+    @Email(message = "Email không hợp lệ")
     @Column(name = "email", nullable = false, length = 255, unique = true)
     private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "avatar_url", length = 255, nullable = true)
     private String avatarUrl;
 
+    @Column(name = "is_active")
+    @JsonProperty("is_active")
+    private boolean isActive = false;
+
     @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private UserInfo userInfo;
+
+    @Column
+    private String role;
 
     @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL)
     @JsonIgnore

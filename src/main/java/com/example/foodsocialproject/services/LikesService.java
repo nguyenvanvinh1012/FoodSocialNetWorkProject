@@ -20,7 +20,7 @@ public class LikesService implements TableService{
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(Long id) {
         Long count = likesRepository.countById(id);
         if (count == null || count == 0) {
             throw new ResourceNotFoundException("Không tìm thấy ID: " + id);
@@ -29,7 +29,7 @@ public class LikesService implements TableService{
     }
 
     @Override
-    public Optional get(UUID id) {
+    public Optional get(Long id) {
         Optional<Likes> result = likesRepository.findById(id);
         if (result.isPresent()){
             return result;

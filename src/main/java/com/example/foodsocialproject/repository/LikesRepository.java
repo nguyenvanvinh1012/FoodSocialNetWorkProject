@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface LikesRepository  extends JpaRepository<Likes, UUID> {
-    Long countById(UUID id);
+public interface LikesRepository  extends JpaRepository<Likes, Long> {
+    Long countById(Long id);
 }

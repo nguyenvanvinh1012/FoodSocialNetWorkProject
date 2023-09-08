@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-lg-2 col-md-3 d-none d-md-block">
                             <div class="profile-edit-panel">
-                                <button name="share" class="share-text-field edit-btn" aria-disabled="true" data-bs-toggle="modal" data-bs-target="#textbox">Update profile</button>
+                                <button name="share" class="share-text-field edit-btn" aria-disabled="true" data-bs-toggle="modal" data-bs-target="#textbox">Cập nhật tài khoản</button>
                             </div>
                         </div>
                     </div>
@@ -52,17 +52,25 @@
                 <div class="row">
                     <div class="col-lg-3 order-2 order-lg-1">
                         <aside class="widget-area profile-sidebar">
+                            <div th:if="${success}" th:text="${success}" class="alert alert-success"
+                                 style="display: flex; justify-content: center; color: white;">
+                            </div>
+                            <div th:if="${error}" th:text="${error}" class="alert alert-danger"
+                            >
+                            </div>
+
                             <!-- widget single item start -->
                             <div class="card widget-item">
-                                <h4 class="widget-title">Erik Jhonson</h4>
+                                <h4 class="widget-title" th:text="${user.fullName}"></h4>
                                 <div class="widget-body">
                                     <div class="about-author">
-                                        <p>I Don’t know how? But i believe that it is possible one day if i stay with my dream all time</p>
+                                        <p th:unless="${user.userInfo.otherInfo}" th:text="' bạn đang nghĩ gì?'"></p>
+                                        <p th:if="${user.userInfo.otherInfo}" th:text="${user.userInfo.otherInfo}"></p>
                                         <ul class="author-into-list">
-                                            <li><a href="#"><i class="bi bi-office-bag"></i>Web Developer</a></li>
-                                            <li><a href="#"><i class="bi bi-home"></i>Melbourne, Australia</a></li>
-                                            <li><a href="#"><i class="bi bi-location-pointer"></i>Pulshar, Melbourne</a></li>
-                                            <li><a href="#"><i class="bi bi-heart-beat"></i>Travel, Swimming</a></li>
+                                            <li><a><i class="bi bi-office-bag"></i><a th:text="'Hiện đang là '+${user.userInfo.currentJob}"></a></a></li>
+                                            <li><a><i class="bi bi-worker-cap"></i><a th:text="'Làm việc tại '+${user.userInfo.workingAt}"></a></a></li>
+                                            <li><a><i class="bi bi-location-pointer"></i><a th:text="'Sống tại '+${user.userInfo.livingAt}"></a></a></li>
+                                           <li><a><i class="bi bi-playing-card"></i><a th:text="'Thích '+${user.userInfo.favorites}"></a></a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -259,22 +267,9 @@
                         <div class="card card-small">
                             <div class="share-box-inner">
                                 <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="@{/client_assets/images/profile/profile-small-37.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
                                 <!-- profile picture end -->
 
                                 <!-- share content box start -->
-                                <div class="share-content-box w-100">
-                                    <form class="share-text-box">
-                                        <textarea name="share" class="share-text-field" aria-disabled="true" placeholder="Say Something" data-bs-toggle="modal" data-bs-target="#textbox" id="email"></textarea>
-                                        <button class="btn-share" type="submit">share</button>
-                                    </form>
-                                </div>
                                 <!-- share content box end -->
                                 <!-- Modal start -->
                                 <div class="modal fade" id="textbox" aria-labelledby="textbox">
@@ -286,49 +281,63 @@
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form th:action="@{/register/process_register}" th:object="${registrationRequest}" method="post">
-
+                                            <form th:action="@{/updateInfo}" th:object="${userInfo}" method="post">
+<input type="hidden" th:field="*{id}">
                                             <div class="modal-body custom-scroll">
                                                     <div th:if="${errorMessage}" class="alert alert-danger">
                                                         <p th:text="${errorMessage}"></p>
                                                     </div>
-                                                    <div th:if="${successMessage}" class="alert alert-success" style="display: flex; justify-content: center; color: white;">
-                                                        <p th:text="${successMessage}"></p>
-                                                    </div>
-
                                                     <div class="row">
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label for="fullName">Họ tên</label>
-                                                                <input type="text" id="fullName" class="form-control" required name="fullName"
-                                                                  >
+                                                                <input type="text" id="fullName" class="form-control" name="fullName"
+                                                                       th:field="*{user.fullName}">
+                                                                <div class="invalid-feedback" th:errors="*{user.fullName}"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label for="job">Nghề nghiệp</label>
-                                                                <input type="text" id="job" required class="form-control" >
+                                                                <input type="text" id="job" name="job" class="form-control"
+                                                                       th:field="*{currentJob}">
+                                                                <div class="invalid-feedback" th:errors="*{currentJob}"></div>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label for="workingAt">Làm việc tại</label>
-                                                                <input type="text" id="workingAt" required class="form-control" >
+                                                                <input type="text" id="workingAt" class="form-control" name="workingAt"
+                                                                       th:field="*{workingAt}">
+                                                                <div class="invalid-feedback" th:errors="*{workingAt}"></div>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label for="favorites">Sở thích</label>
-                                                                <input type="text" id="favorites" required class="form-control" >
+                                                                <input type="text" id="favorites" class="form-control" name="favorites"
+                                                                       th:field="*{favorites}">
+                                                                <div class="invalid-feedback" th:errors="*{favorites}"></div>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-md-6 col-12">
                                                             <div class="form-group">
                                                                 <label for="dateOfBirth">Ngày sinh</label>
-                                                                <input type="email" id="dateOfBirth" required class="form-control" >
+                                                                <input type="date" id="dateOfBirth" class="form-control" name="dateOfBirth"
+                                                                       th:field="*{dateOfBirth}">
+                                                                <div class="invalid-feedback" th:errors="*{dateOfBirth}"></div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-6 col-12">
+                                                            <div class="form-group">
+                                                                <label for="dateOfBirth">Sống tại</label>
+                                                                <input type="text" id="livingAt" class="form-control" name="livingAt"
+                                                                       th:field="*{livingAt}">
+                                                                <div class="invalid-feedback" th:errors="*{livingAt}"></div>
                                                             </div>
                                                         </div>
 
@@ -336,16 +345,14 @@
                                                             <label for="dateOfBirth">Giới tính</label>
                                                             <div class="form-group">
 
-                                                                <select required class="form-control">
+                                                                <select class="form-control" th:field="*{user.gender}">
                                                                     <option value="male">Nam</option>
                                                                     <option value="female">Nữ</option>
                                                                     <option value="order">Khác</option>
                                                                 </select>
-
-
                                                             </div>
                                                         </div>
-                                                        <textarea name="share" class="share-field-big custom-scroll" placeholder="Hãy viết gì đó về bạn."></textarea>
+                                                        <textarea name="share" class="share-field-big custom-scroll" th:field="*{otherInfo}" placeholder="Hãy viết gì đó về bạn."></textarea>
                                                     </div>
                                             </div>
                                             <div class="modal-footer">

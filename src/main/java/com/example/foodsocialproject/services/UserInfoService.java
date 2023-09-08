@@ -37,4 +37,21 @@ public class UserInfoService implements TableService{
         else
             throw new ResourceNotFoundException("Không tìm ID: " + id + "!");
     }
+
+    public void save(UserInfo userInfo) {
+        Optional<UserInfo> editUserInfo = userInfoRepository.findById(userInfo.getId());
+        if (editUserInfo.isPresent()) {
+            UserInfo user = editUserInfo.get();
+            user.setFavorites(userInfo.getFavorites());
+            user.setCurrentJob(userInfo.getCurrentJob());
+            user.setOtherInfo(userInfo.getOtherInfo());
+            user.setLivingAt(userInfo.getLivingAt());
+            user.setWorkingAt(userInfo.getWorkingAt());
+            user.setDateOfBirth(userInfo.getDateOfBirth());
+            user.getUser().setFullName(userInfo.getUser().getFullName());
+            user.getUser().setGender(userInfo.getUser().getGender());
+            userInfoRepository.save(user);
+        } else
+            throw new ResourceNotFoundException("Không tìm thấy user với ID: " + userInfo.getId() + "!");
+    }
 }

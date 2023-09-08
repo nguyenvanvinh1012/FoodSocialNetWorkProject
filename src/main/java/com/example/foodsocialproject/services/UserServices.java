@@ -1,10 +1,12 @@
 package com.example.foodsocialproject.services;
 
 import com.example.foodsocialproject.dto.RegistrationRequest;
+import com.example.foodsocialproject.entity.UserInfo;
 import com.example.foodsocialproject.entity.Users;
 import com.example.foodsocialproject.entity.VerificationToken;
 import com.example.foodsocialproject.exception.AlreadyExistsException;
 import com.example.foodsocialproject.exception.ResourceNotFoundException;
+import com.example.foodsocialproject.repository.UserInfoRepository;
 import com.example.foodsocialproject.repository.UserRepository;
 import com.example.foodsocialproject.repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserServices implements TableService{
     private final UserRepository userRepository;
+    private final UserInfoRepository  userInfoRepository;
     private final PasswordEncoder passwordEncoder;
     private final VerificationTokenRepository tokenRepository;
 
@@ -91,6 +94,9 @@ public class UserServices implements TableService{
         newUser.setGender(request.gender());
         newUser.setPassword(passwordEncoder.encode(request.password()));
         newUser.setRole(request.role());
+        var newUserInfo = new UserInfo();
+        newUserInfo.setUser(newUser);
+        userInfoRepository.save(newUserInfo);
         return userRepository.save(newUser);
     }
 

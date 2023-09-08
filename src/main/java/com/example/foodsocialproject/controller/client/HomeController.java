@@ -20,4 +20,8 @@ public class HomeController {
     public String login(Model model){
         return "client/auth-login";
     }
+    @GetMapping("/profile")
+    public String profile(Model model){
+        return "client/home/profile";
+    }
 }

@@ -23,11 +23,14 @@ public class UserInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "study_at", length = 127)
-    private String studyAt;
+    @Column(name = "current_job")
+    private String currentJob;
 
-    @Column(name = "working_at", length = 127)
+    @Column(name = "working_at")
     private String workingAt;
+
+    @Column(name = "living_at")
+    private String livingAt;
 
     @Column(name = "favorites", length = 1023)
     private String favorites;

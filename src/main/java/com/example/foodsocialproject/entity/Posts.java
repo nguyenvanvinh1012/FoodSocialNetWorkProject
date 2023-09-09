@@ -18,8 +18,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Posts {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -34,14 +35,11 @@ public class Posts {
     @Column(name = "description ", length = 3000)
     private String description ;
 
-    @Column(name = "quantity")
-    private String quantity;
+    @Column(name = "serving_size")
+    private String serving_size;
 
     @Column(name = "cooking_time")
     private String cookingTime;
-
-    @Column(name = "ingredients", length = 3000)
-    private String ingredients ;
 
     @Column(name = "like_count")
     private int likeCount;
@@ -49,6 +47,27 @@ public class Posts {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Likes> likes;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Ingredients> ingredients;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Steps> steps;
+    @Override
+    public String toString() {
+        return "Posts{" +
+                "id=" + id +
+                ", user=" + user +
+                ", image='" + image + '\'' +
+                ", foodName='" + foodName + '\'' +
+                ", description='" + description + '\'' +
+                ", serving_size='" + serving_size + '\'' +
+                ", cookingTime='" + cookingTime + '\'' +
+                ", likeCount=" + likeCount +
+                ", likes=" + likes +
+                ", ingredients=" + ingredients +
+                ", steps=" + steps +
+                '}';
+    }
 
 
 }

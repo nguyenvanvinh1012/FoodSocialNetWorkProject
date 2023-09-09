@@ -49,24 +49,27 @@ public class HomeController {
         String userEmail = p.getName();
         Users foundUser = userService.findbyEmail(userEmail).get();
         if (bindingResult.hasErrors()) {
-            System.out.println("Has Error "+bindingResult.getAllErrors());
             model.addAttribute("user",foundUser);
             model.addAttribute("userInfo",foundUser.getUserInfo());
             model.addAttribute("error", "Xảy ra lỗi.");
             return "client/home/profile";
         }
         try {
-            System.out.println("getOtherInfo: "+userInfo.getOtherInfo());
              userInfoService.save(userInfo);
             model.addAttribute("success", "Cập nhật thành công.");
         } catch (ResourceNotFoundException e) {
             System.out.println("Has Error "+e.getMessage());
             model.addAttribute("error", "Xảy ra lỗi.");
         }
-        System.out.println("ok "+foundUser.getUserInfo());
         model.addAttribute("user",foundUser);
         model.addAttribute("userInfo",foundUser.getUserInfo());
         return "client/home/profile";
     }
 
+    @GetMapping("/post")
+    public String post(){
+
+
+        return "client/home/createPost";
+    }
 }

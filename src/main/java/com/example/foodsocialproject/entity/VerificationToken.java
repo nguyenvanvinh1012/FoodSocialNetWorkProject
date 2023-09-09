@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -16,8 +17,9 @@ import java.util.Date;
 
 public class VerificationToken {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
 
     @OneToOne
     @JoinColumn(name = "user_id")

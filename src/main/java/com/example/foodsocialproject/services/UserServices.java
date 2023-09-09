@@ -56,7 +56,7 @@ public class UserServices implements TableService{
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(UUID id) {
         Long count = userRepository.countById(id);
         if (count == null || count == 0) {
             throw new ResourceNotFoundException("Không tìm thấy người dùng với ID: " + id);
@@ -65,7 +65,7 @@ public class UserServices implements TableService{
     }
 
     @Override
-    public Optional get(Long id) {
+    public Optional get(UUID id) {
         Optional<Users> result = userRepository.findById(id);
         if (result.isPresent()){
             return result;

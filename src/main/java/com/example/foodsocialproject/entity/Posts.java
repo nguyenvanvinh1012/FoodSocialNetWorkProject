@@ -25,18 +25,26 @@ public class Posts {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Users user;
 
-    @Column(name = "content", length = 3000)
-    private String content;
+    @Column(name = "image")
+    private String image;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "access_modifier")
-    private AccessModifierLevel accessModifier;
+    @Column(name = "food_name", length = 3000)
+    private String foodName;
+
+    @Column(name = "description ", length = 3000)
+    private String description ;
+
+    @Column(name = "quantity")
+    private String quantity;
+
+    @Column(name = "cooking_time")
+    private String cookingTime;
+
+    @Column(name = "ingredients", length = 3000)
+    private String ingredients ;
 
     @Column(name = "like_count")
     private int likeCount;
-
-    @Column(name = "shared_post_id")
-    private UUID sharedPostId;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonIgnore

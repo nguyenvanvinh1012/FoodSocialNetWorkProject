@@ -9,8 +9,8 @@ public interface TableService {
     List<?> getList();
 
 
-   void delete(Long id);
+   void delete(UUID id);
 
-   Optional get(Long id);
+   Optional get(UUID id);
 
 }

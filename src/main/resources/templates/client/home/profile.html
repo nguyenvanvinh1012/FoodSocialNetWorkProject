@@ -55,6 +55,9 @@
                             <div th:if="${success}" th:text="${success}" class="alert alert-success"
                                  style="display: flex; justify-content: center; color: white;">
                             </div>
+                            <div th:if="${raMessage}" class="alert alert-success text-center">
+                                [[${raMessage}]]
+                            </div>
                             <div th:if="${error}" th:text="${error}" class="alert alert-danger"
                             >
                             </div>

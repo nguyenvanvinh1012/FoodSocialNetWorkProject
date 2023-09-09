@@ -1,12 +1,13 @@
 package com.example.foodsocialproject.controller.client;
 
+import com.example.foodsocialproject.dto.FileUploadUtil;
 import com.example.foodsocialproject.dto.RegistrationRequest;
-import com.example.foodsocialproject.entity.Posts;
-import com.example.foodsocialproject.entity.UserInfo;
-import com.example.foodsocialproject.entity.Users;
+import com.example.foodsocialproject.entity.*;
 import com.example.foodsocialproject.event.RegistrationCompleteEvent;
 import com.example.foodsocialproject.exception.AlreadyExistsException;
 import com.example.foodsocialproject.exception.ResourceNotFoundException;
+import com.example.foodsocialproject.services.PostsService;
+import com.example.foodsocialproject.services.StepService;
 import com.example.foodsocialproject.services.UserInfoService;
 import com.example.foodsocialproject.services.UserServices;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +35,7 @@ import java.util.Optional;
 @RequestMapping(value = {""})
 public class HomeController {
     private final UserServices userService;
+    private final PostsService postsService;
     private final UserInfoService userInfoService;
 
     @GetMapping("")
@@ -84,28 +86,45 @@ public class HomeController {
     }
 
     @PostMapping("/createRecipe")
-    public String save(@Valid @ModelAttribute("recipe") Posts recipe, BindingResult bindingResult, RedirectAttributes re) throws IOException {
+    public String save(@Valid @ModelAttribute("recipe") Posts recipe, BindingResult bindingResult,Principal p, Model model, @RequestParam("numberOfImages") int numberOfImages, RedirectAttributes ra, @RequestParam("imageFile") MultipartFile multipartFile, @RequestParam("extraImage") MultipartFile[] extraMultipartFile ) throws IOException {
+        String userEmail = p.getName();
+        Users foundUser = userService.findbyEmail(userEmail).get();
         if (bindingResult.hasErrors()) {
             return "client/home/createPost";
         }
-        System.out.println("RECIPE "+recipe.getIngredients().toString());
-        System.out.println("RECIPE "+recipe.getSteps().toString());
-     /*    String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-       city.setImage_path(fileName);
-        City savedCity = cityService.save(city);
-        String uploadDir = "./cities-images/" + savedCity.getId();
-        Path uploadPath = Paths.get(uploadDir);
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-        try (InputStream inputStream = multipartFile.getInputStream()) {
+       String mainFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+       recipe.setImage(mainFileName);
 
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new IOException("Could not save uploaded file " + e.getMessage());
+       int count=0;
+       for (MultipartFile extraMultiPart : extraMultipartFile){
+           String extraImageName = StringUtils.cleanPath(extraMultiPart.getOriginalFilename());
+           if (count<=numberOfImages){
+               recipe.getSteps().get(count).setStepImg(extraImageName);
+               recipe.getSteps().get(count).setStepNumber(count+1);
+               recipe.getSteps().get(count).setRecipe(recipe);
+           }
+          count++;
+       }
+        System.out.println("PIC NUMBER: " + numberOfImages);
+        recipe.setUser(foundUser);
+        for (Ingredients ingredient:recipe.getIngredients()
+        ) {
+            ingredient.setRecipe(recipe);
         }
-        re.addFlashAttribute("raMessage", "Lưu thành phố thành công.");*/
-        return "client/home/createPost";
+        Posts savedRecipe = postsService.save(recipe);
+
+        String uploadDir = "./post-images/" + savedRecipe.getId();
+        FileUploadUtil.saveFile(uploadDir,multipartFile, mainFileName);
+       for (MultipartFile extraMultiFile : extraMultipartFile){
+           String fileName = StringUtils.cleanPath(extraMultiFile.getOriginalFilename());
+
+           FileUploadUtil.saveFile(uploadDir,extraMultiFile, fileName);
+       }
+
+
+        ra.addFlashAttribute("raMessage", "Đăng bài thành công");
+        model.addAttribute("user",foundUser);
+        model.addAttribute("userInfo",foundUser.getUserInfo());
+        return "client/home/profile";
     }
 }

@@ -22,7 +22,6 @@ public class Steps {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @Min(1)
     @Column(name = "step_number")
     private int stepNumber;
 

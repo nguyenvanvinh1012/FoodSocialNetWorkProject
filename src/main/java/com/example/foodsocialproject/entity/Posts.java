@@ -52,6 +52,14 @@ public class Posts {
     private List<Ingredients> ingredients;
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Steps> steps;
+
+    @Transient
+    public String getPostImagePath() {
+        if (id == null||image==null) {
+            return null;
+        }
+        return "/post-images/" + id + "/" + image;
+    }
     @Override
     public String toString() {
         return "Posts{" +

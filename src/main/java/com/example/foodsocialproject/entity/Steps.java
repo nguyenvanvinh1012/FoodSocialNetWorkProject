@@ -34,4 +34,12 @@ public class Steps {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Posts recipe;
+
+    @Transient
+    public String getStepImagePath() {
+        if (id == null||stepImg==null) {
+            return null;
+        }
+        return "/steps-images/" + id + "/" + stepImg;
+    }
 }

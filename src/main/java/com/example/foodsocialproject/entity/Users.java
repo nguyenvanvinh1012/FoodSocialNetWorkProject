@@ -72,6 +72,19 @@ public class Users {
     @JsonIgnore
     private List<Likes> likes;
 
+    @Transient
+    public String getAvatarImagePath() {
+        if (id == null||avatarUrl==null) {
+            return null;
+        }
+        return "/avatar-images/" + id + "/" + avatarUrl;
+    }
 
-
+    @Transient
+    public String getDefaultAvatarImagePath() {
+        if (id == null||avatarUrl==null) {
+            return null;
+        }
+        return "/avatar-images/default/davatar.jpg";
+    }
 }

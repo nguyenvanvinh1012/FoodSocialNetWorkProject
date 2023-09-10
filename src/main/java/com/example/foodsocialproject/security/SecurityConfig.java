@@ -28,11 +28,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/admin_assets/**","/client_assets/**", "/", "/register/**", "/login", "/error", "/home")
+                        .requestMatchers("/admin_assets/**","/client_assets/**", "/register/**", "/login", "/error", "/resources/**","/client_assets/images/**")
                         .permitAll()
-                        .requestMatchers("/books/edit/**", "/books/add", "/books/delete")
+                        .requestMatchers("/admin/**")
                         .hasAnyAuthority("ADMIN")
-                        .requestMatchers("/books", "/cart", "/cart/**")
+                        .requestMatchers("/user")
                         .hasAnyAuthority("ADMIN", "USER")
                         .requestMatchers("/api/**")
                         .permitAll()

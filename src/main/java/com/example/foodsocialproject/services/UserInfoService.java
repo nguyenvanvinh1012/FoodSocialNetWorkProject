@@ -1,6 +1,7 @@
 package com.example.foodsocialproject.services;
 
 import com.example.foodsocialproject.entity.UserInfo;
+import com.example.foodsocialproject.entity.Users;
 import com.example.foodsocialproject.exception.ResourceNotFoundException;
 import com.example.foodsocialproject.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +39,11 @@ public class UserInfoService implements TableService{
             throw new ResourceNotFoundException("Không tìm ID: " + id + "!");
     }
 
-    public void save(UserInfo userInfo) {
+    public UserInfo save(UserInfo userInfo, Users foundUser) {
         Optional<UserInfo> editUserInfo = userInfoRepository.findById(userInfo.getId());
         if (editUserInfo.isPresent()) {
             UserInfo user = editUserInfo.get();
+            user.setUser(foundUser);
             user.setFavorites(userInfo.getFavorites());
             user.setCurrentJob(userInfo.getCurrentJob());
             user.setOtherInfo(userInfo.getOtherInfo());
@@ -50,8 +52,10 @@ public class UserInfoService implements TableService{
             user.setDateOfBirth(userInfo.getDateOfBirth());
             user.getUser().setFullName(userInfo.getUser().getFullName());
             user.getUser().setGender(userInfo.getUser().getGender());
+            user.getUser().setAvatarUrl(userInfo.getUser().getAvatarUrl());
             userInfoRepository.save(user);
         } else
             throw new ResourceNotFoundException("Không tìm thấy user với ID: " + userInfo.getId() + "!");
+        return userInfo;
     }
 }

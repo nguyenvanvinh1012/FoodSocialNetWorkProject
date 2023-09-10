@@ -52,29 +52,41 @@ public class HomeController {
         Users foundUser = userService.findbyEmail(userEmail).get();
         model.addAttribute("user",foundUser);
         model.addAttribute("userInfo",foundUser.getUserInfo());
-
+        model.addAttribute("listPosts",foundUser.getPosts());
+       if (foundUser.getPosts().isEmpty()){
+           model.addAttribute("listPostsEmpty",true);
+       }
         return "client/home/profile";
     }
 
     @PostMapping("/updateInfo")
-    public String updateInfo(@Valid @ModelAttribute("userInfo") UserInfo userInfo, BindingResult bindingResult, Model model, Principal p) {
+    public String updateInfo(@Valid @ModelAttribute("userInfo") UserInfo userInfo, BindingResult bindingResult, @RequestParam("imageFile") MultipartFile multipartFile, Model model, Principal p) {
         String userEmail = p.getName();
         Users foundUser = userService.findbyEmail(userEmail).get();
         if (bindingResult.hasErrors()) {
             model.addAttribute("user",foundUser);
             model.addAttribute("userInfo",foundUser.getUserInfo());
             model.addAttribute("error", "Xảy ra lỗi.");
+            model.addAttribute("listPosts",foundUser.getPosts());
             return "client/home/profile";
         }
         try {
-             userInfoService.save(userInfo);
+            String mainFileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+            userInfo.getUser().setAvatarUrl(mainFileName);
+            userInfoService.save(userInfo, foundUser);
+            String uploadDir = "./avatar-images/" + foundUser.getId();
+            FileUploadUtil.saveFile(uploadDir,multipartFile, mainFileName);
             model.addAttribute("success", "Cập nhật thành công.");
         } catch (ResourceNotFoundException e) {
             System.out.println("Has Error "+e.getMessage());
             model.addAttribute("error", "Xảy ra lỗi.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         model.addAttribute("user",foundUser);
         model.addAttribute("userInfo",foundUser.getUserInfo());
+        model.addAttribute("listPosts",foundUser.getPosts());
+
         return "client/home/profile";
     }
 
@@ -105,7 +117,6 @@ public class HomeController {
            }
           count++;
        }
-        System.out.println("PIC NUMBER: " + numberOfImages);
         recipe.setUser(foundUser);
         for (Ingredients ingredient:recipe.getIngredients()
         ) {
@@ -113,18 +124,21 @@ public class HomeController {
         }
         Posts savedRecipe = postsService.save(recipe);
 
-        String uploadDir = "./post-images/" + savedRecipe.getId();
-        FileUploadUtil.saveFile(uploadDir,multipartFile, mainFileName);
+        String postUploadDir = "./post-images/" + savedRecipe.getId();
+        String stepUploadDir = "./steps-images/" + savedRecipe.getId();
+        FileUploadUtil.saveFile(postUploadDir,multipartFile, mainFileName);
+
        for (MultipartFile extraMultiFile : extraMultipartFile){
            String fileName = StringUtils.cleanPath(extraMultiFile.getOriginalFilename());
 
-           FileUploadUtil.saveFile(uploadDir,extraMultiFile, fileName);
+           FileUploadUtil.saveFile(stepUploadDir,extraMultiFile, fileName);
        }
 
 
         ra.addFlashAttribute("raMessage", "Đăng bài thành công");
         model.addAttribute("user",foundUser);
         model.addAttribute("userInfo",foundUser.getUserInfo());
+        model.addAttribute("listPosts",foundUser.getPosts());
         return "client/home/profile";
     }
 }

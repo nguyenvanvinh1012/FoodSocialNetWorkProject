@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +45,10 @@ public class Posts {
 
     @Column(name = "like_count")
     private int likeCount;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Date createdAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @JsonIgnore

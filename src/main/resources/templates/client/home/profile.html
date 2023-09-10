@@ -6,1082 +6,557 @@
 <head>
     <meta charset="UTF-8">
     <title>Trang cá nhân</title>
+    <style>
+        .mgt {
+            margin-top: 15px;
+        }
+
+        .rounded-avatar {
+            width: 160px; /* Điều chỉnh kích thước ảnh theo mong muốn */
+            height: 160px; /* Điều chỉnh kích thước ảnh theo mong muốn */
+            border-radius: 50%; /* Làm cho ảnh thành hình tròn */
+            object-fit: cover; /* Đảm bảo hình ảnh bị cắt tỉa để vừa trong kích thước khung */
+        }
+
+        .mgb {
+            margin-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
-        <div class="main-wrapper">
-            <div class="profile-banner-large bg-img" th:data-bg="@{/client_assets/images/banner/profile-banner.jpg}">
-            </div>
-            <div class="profile-menu-area bg-white">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3 col-md-3">
-                            <div class="profile-picture-box">
-                                <figure class="profile-picture">
-                                    <a href="profile.html">
-                                        <img src="@{/client_@{/client_assets/images/profile/profile-1.jpg}" alt="profile picture">
-                                    </a>
-                                </figure>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 offset-lg-1">
-                            <div class="profile-menu-wrapper">
-                                <div class="main-menu-inner header-top-navigation">
-                                    <nav>
-                                        <ul class="main-menu">
-                                            <li class="active"><a href="#">timeline</a></li>
-                                            <li><a href="about.html">about</a></li>
-                                            <li><a href="photos.html">photos</a></li>
-                                            <li><a href="friends.html">friends</a></li>
-                                            <li><a href="about.html">more</a></li>
-                                            <!-- <li class="d-inline-block d-md-none"><a href="profile.html">edit profile</a></li> -->
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-3 d-none d-md-block">
-                            <div class="profile-edit-panel">
-                                <button name="share" class="share-text-field edit-btn" aria-disabled="true" data-bs-toggle="modal" data-bs-target="#textbox">Cập nhật tài khoản</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="main-wrapper">
+        <div class="profile-menu-area bg-white"
+             style="margin-top: 70px;">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 order-2 order-lg-1">
-                        <aside class="widget-area profile-sidebar">
-                            <div th:if="${success}" th:text="${success}" class="alert alert-success"
-                                 style="display: flex; justify-content: center; color: white;">
-                            </div>
-                            <div th:if="${raMessage}" class="alert alert-success text-center">
-                                [[${raMessage}]]
-                            </div>
-                            <div th:if="${error}" th:text="${error}" class="alert alert-danger"
-                            >
-                            </div>
-
-                            <!-- widget single item start -->
-                            <div class="card widget-item">
-                                <h4 class="widget-title" th:text="${user.fullName}"></h4>
-                                <div class="widget-body">
-                                    <div class="about-author">
-                                        <p th:unless="${user.userInfo.otherInfo}" th:text="' bạn đang nghĩ gì?'"></p>
-                                        <p th:if="${user.userInfo.otherInfo}" th:text="${user.userInfo.otherInfo}"></p>
-                                        <ul class="author-into-list">
-                                            <li><a><i class="bi bi-office-bag"></i><a th:text="'Hiện đang là '+${user.userInfo.currentJob}"></a></a></li>
-                                            <li><a><i class="bi bi-worker-cap"></i><a th:text="'Làm việc tại '+${user.userInfo.workingAt}"></a></a></li>
-                                            <li><a><i class="bi bi-location-pointer"></i><a th:text="'Sống tại '+${user.userInfo.livingAt}"></a></a></li>
-                                           <li><a><i class="bi bi-playing-card"></i><a th:text="'Thích '+${user.userInfo.favorites}"></a></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- widget single item end -->
-
-                            <!-- widget single item start -->
-                            <div class="card widget-item">
-                                <h4 class="widget-title">Sweets Memories</h4>
-                                <div class="widget-body">
-                                    <div class="sweet-galley img-gallery">
-                                        <div class="row row-5">
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_@{/client_assets/images/gallery/gallery-1.jpg}">
-                                                            <img src="@{/client_@{/client_assets/images/gallery/gallery-1.jpg}" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_@{/client_assets/images/gallery/gallery-2.jpg">
-                                                            <img src="@{/client_@{/client_assets/images/gallery/gallery-2.jpg" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_@{/client_assets/images/gallery/gallery-3.jpg">
-                                                            <img src="@{/client_@{/client_assets/images/gallery/gallery-3.jpg" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_@{/client_assets/images/gallery/gallery-4.jpg">
-                                                            <img src="@{/client_@{/client_assets/images/gallery/gallery-4.jpg" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_assets/images/gallery/gallery-5.jpg">
-                                                            <img src="@{/client_@{/client_assets/images/gallery/gallery-5.jpg}" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_@{/client_@{/client_assets/images/gallery/gallery-6.jpg}">
-                                                            <img src="@{/client_@{/client_@{/client_assets/images/gallery/gallery-6.jpg}" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_@{/client_assets/images/gallery/gallery-7.jpg}">
-                                                            <img src="@{/client_@{/client_assets/images/gallery/gallery-7.jpg}" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_assets/images/gallery/gallery-8.jpg}">
-                                                            <img src="@{/client_assets/images/gallery/gallery-8.jpg}" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="gallery-tem">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_assets/images/gallery/gallery-9.jpg}">
-                                                            <img src="@{/client_assets/images/gallery/gallery-9.jpg}" alt="sweet memory">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- widget single item end -->
-
-                            <!-- widget single item start -->
-                            <div class="card widget-item">
-                                <h4 class="widget-title">page you may like</h4>
-                                <div class="widget-body">
-                                    <ul class="like-page-list-wrapper">
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-1.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Travel The World</a></h3>
-                                                <p class="list-subtitle"><a href="#">adventure</a></p>
-                                            </div>
-                                            <button class="like-button active">
-                                                <img class="heart" src="@{/client_assets/images/icons/heart.png" alt="">
-                                                <img class="heart-color" src="@{/client_assets/images/icons/heart-color.png" alt="">
-                                            </button>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-11.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Foodcort Nirala</a></h3>
-                                                <p class="list-subtitle"><a href="#">food</a></p>
-                                            </div>
-                                            <button class="like-button">
-                                                <img class="heart" src="@{/client_assets/images/icons/heart.png" alt="">
-                                                <img class="heart-color" src="@{/client_assets/images/icons/heart-color.png" alt="">
-                                            </button>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-15.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Rolin Theitar</a></h3>
-                                                <p class="list-subtitle"><a href="#">drama</a></p>
-                                            </div>
-                                            <button class="like-button">
-                                                <img class="heart" src="@{/client_assets/images/icons/heart.png" alt="">
-                                                <img class="heart-color" src="@{/client_assets/images/icons/heart-color.png" alt="">
-                                            </button>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-18.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Active Mind</a></h3>
-                                                <p class="list-subtitle"><a href="#">fitness</a></p>
-                                            </div>
-                                            <button class="like-button">
-                                                <img class="heart" src="@{/client_assets/images/icons/heart.png" alt="">
-                                                <img class="heart-color" src="@{/client_assets/images/icons/heart-color.png" alt="">
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- widget single item end -->
-                        </aside>
+                <div class="row align-items-center">
+                    <div class="col-lg-3 col-md-3">
+                        <div>
+                            <figure>
+                                <img th:unless="${user.avatarImagePath}" class="rounded-avatar" alt="avatar-image"
+                                     src="/client_assets/images/davatar.png"/>
+                                <img th:if="${user.avatarImagePath}" class="rounded-avatar" alt="avatar-image"
+                                     th:src="@{${user.avatarImagePath}}"/>
+                            </figure>
+                        </div>
                     </div>
-
-                    <div class="col-lg-6 order-1 order-lg-2">
-                        <!-- share box start -->
-                        <div class="card card-small">
-                            <div class="share-box-inner">
-                                <!-- profile picture end -->
-                                <!-- profile picture end -->
-
-                                <!-- share content box start -->
-                                <!-- share content box end -->
-                                <!-- Modal start -->
-                                <div class="modal fade" id="textbox" aria-labelledby="textbox">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Cập Nhật Thông Tin</h5>
-                                                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form th:action="@{/updateInfo}" th:object="${userInfo}" method="post">
-<input type="hidden" th:field="*{id}">
-                                            <div class="modal-body custom-scroll">
-                                                    <div th:if="${errorMessage}" class="alert alert-danger">
-                                                        <p th:text="${errorMessage}"></p>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-6 col-12">
-                                                            <div class="form-group">
-                                                                <label for="fullName">Họ tên</label>
-                                                                <input type="text" id="fullName" class="form-control" name="fullName"
-                                                                       th:field="*{user.fullName}">
-                                                                <div class="invalid-feedback" th:errors="*{user.fullName}"></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6 col-12">
-                                                            <div class="form-group">
-                                                                <label for="job">Nghề nghiệp</label>
-                                                                <input type="text" id="job" name="job" class="form-control"
-                                                                       th:field="*{currentJob}">
-                                                                <div class="invalid-feedback" th:errors="*{currentJob}"></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <div class="form-group">
-                                                                <label for="workingAt">Làm việc tại</label>
-                                                                <input type="text" id="workingAt" class="form-control" name="workingAt"
-                                                                       th:field="*{workingAt}">
-                                                                <div class="invalid-feedback" th:errors="*{workingAt}"></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <div class="form-group">
-                                                                <label for="favorites">Sở thích</label>
-                                                                <input type="text" id="favorites" class="form-control" name="favorites"
-                                                                       th:field="*{favorites}">
-                                                                <div class="invalid-feedback" th:errors="*{favorites}"></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <div class="form-group">
-                                                                <label for="dateOfBirth">Ngày sinh</label>
-                                                                <input type="date" id="dateOfBirth" class="form-control" name="dateOfBirth"
-                                                                       th:field="*{dateOfBirth}">
-                                                                <div class="invalid-feedback" th:errors="*{dateOfBirth}"></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <div class="form-group">
-                                                                <label for="dateOfBirth">Sống tại</label>
-                                                                <input type="text" id="livingAt" class="form-control" name="livingAt"
-                                                                       th:field="*{livingAt}">
-                                                                <div class="invalid-feedback" th:errors="*{livingAt}"></div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-md-6 col-12">
-                                                            <label for="dateOfBirth">Giới tính</label>
-                                                            <div class="form-group">
-
-                                                                <select class="form-control" th:field="*{user.gender}">
-                                                                    <option value="male">Nam</option>
-                                                                    <option value="female">Nữ</option>
-                                                                    <option value="order">Khác</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <textarea name="share" class="share-field-big custom-scroll" th:field="*{otherInfo}" placeholder="Hãy viết gì đó về bạn."></textarea>
-                                                    </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="post-share-btn" data-bs-dismiss="modal">Huỷ</button>
-                                                <button type="submit" class="post-share-btn">Lưu</button>
-                                            </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Modal end -->
-                            </div>
-                        </div>
-                        <!-- share box end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="@{/client_assets/images/profile/profile-small-25.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="profile.html">Erik Jhonson</a></h6>
-                                    <span class="post-time">35 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                    in their infancy.
-                                </p>
-                                <div class="post-thumb-gallery img-gallery">
-                                    <div class="row g-0">
-                                        <div class="col-8">
-                                            <figure class="post-thumb">
-                                                <a class="gallery-selector" href="@{/client_assets/images/post/post-2.jpg">
-                                                    <img src="@{/client_assets/images/post/post-2.jpg" alt="post image">
-                                                </a>
-                                            </figure>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_assets/images/post/post-3.jpg">
-                                                            <img src="@{/client_assets/images/post/post-3.jpg" alt="post image">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                                <div class="col-12">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_assets/images/post/post-4.jpg">
-                                                            <img src="@{/client_assets/images/post/post-4.jpg" alt="post image">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                                <div class="col-12">
-                                                    <figure class="post-thumb">
-                                                        <a class="gallery-selector" href="@{/client_assets/images/post/post-5.jpg">
-                                                            <img src="@{/client_assets/images/post/post-5.jpg" alt="post image">
-                                                        </a>
-                                                    </figure>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span>You and 207 people like this</span>
-                                        <strong>207</strong>
-                                    </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                <i class="bi bi-chat-bubble"></i>
-                                                <span>41</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                <i class="bi bi-share"></i>
-                                                <span>07</span>
-                                            </button>
-                                        </li>
+                    <div class="col-lg-6 col-md-6 offset-lg-1">
+                        <div class="profile-menu-wrapper">
+                            <div class="main-menu-inner header-top-navigation">
+                                <nav>
+                                    <ul class="main-menu">
+                                        <li class="active"><a href="#">timeline</a></li>
+                                        <li><a href="about.html">about</a></li>
+                                        <li><a href="photos.html">photos</a></li>
+                                        <li><a href="friends.html">friends</a></li>
+                                        <li><a href="about.html">more</a></li>
+                                        <!-- <li class="d-inline-block d-md-none"><a href="profile.html">edit profile</a></li> -->
                                     </ul>
-                                </div>
+                                </nav>
                             </div>
                         </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="@{/client_assets/images/profile/profile-small-3.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="profile.html">Jon Wileyam</a></h6>
-                                    <span class="post-time">15 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc pb-0">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for
-                                </p>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span>You and 201 people like this</span>
-                                        <strong>201</strong>
-                                    </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                <i class="bi bi-chat-bubble"></i>
-                                                <span>41</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                <i class="bi bi-share"></i>
-                                                <span>07</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="@{/client_assets/images/profile/profile-small-4.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="profile.html">william henry</a></h6>
-                                    <span class="post-time">35 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                    in their infancy.
-                                </p>
-                                <div class="plyr__video-embed plyr-video">
-                                    <iframe src="https://www.youtube.com/embed/WeA7edXsU40" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                </div>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span>You and 201 people like this</span>
-                                        <strong>201</strong>
-                                    </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                <i class="bi bi-chat-bubble"></i>
-                                                <span>41</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                <i class="bi bi-share"></i>
-                                                <span>07</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="@{/client_assets/images/profile/profile-small-8.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="profile.html">Mili Raoulin</a></h6>
-                                    <span class="post-time">50 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                    in their infancy.
-                                </p>
-                                <div class="post-thumb-gallery img-gallery">
-                                    <div class="row g-0">
-                                        <div class="col-6">
-                                            <figure class="post-thumb">
-                                                <a class="gallery-selector" href="@{/client_assets/images/post/post-6.jpg">
-                                                    <img src="@{/client_assets/images/post/post-6.jpg" alt="post image">
-                                                </a>
-                                            </figure>
-                                        </div>
-                                        <div class="col-6">
-                                            <figure class="post-thumb">
-                                                <a class="gallery-selector" href="@{/client_assets/images/post/post-7.jpg">
-                                                    <img src="@{/client_assets/images/post/post-7.jpg" alt="post image">
-                                                </a>
-                                            </figure>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span>You and 230 people like this</span>
-                                        <strong>230</strong>
-                                    </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                <i class="bi bi-chat-bubble"></i>
-                                                <span>65</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                <i class="bi bi-share"></i>
-                                                <span>04</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="@{/client_assets/images/profile/profile-small-6.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="profile.html">Robart Faul</a></h6>
-                                    <span class="post-time">40 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc pb-0">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for Many desktop publishing packages and web page
-                                    editors now use Lorem Ipsum as their default model text, and a search for Many
-                                    desktop publishing duskam azer.
-                                </p>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span>You and 250 people like this</span>
-                                        <strong>250</strong>
-                                    </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                <i class="bi bi-chat-bubble"></i>
-                                                <span>80</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                <i class="bi bi-share"></i>
-                                                <span>10</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="@{/client_assets/images/profile/profile-small-2.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="profile.html">merry watson</a></h6>
-                                    <span class="post-time">20 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for 'lorem ipsum' will uncover many web sites still
-                                    in their infancy.
-                                </p>
-                                <div class="post-thumb-gallery">
-                                    <figure class="post-thumb img-popup">
-                                        <a href="@{/client_assets/images/post/post-1.jpg">
-                                            <img src="@{/client_assets/images/post/post-1.jpg" alt="post image">
-                                        </a>
-                                    </figure>
-                                </div>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span>You and 201 people like this</span>
-                                        <strong>201</strong>
-                                    </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                <i class="bi bi-chat-bubble"></i>
-                                                <span>41</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                <i class="bi bi-share"></i>
-                                                <span>07</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
-
-                        <!-- post status start -->
-                        <div class="card">
-                            <!-- post title start -->
-                            <div class="post-title d-flex align-items-center">
-                                <!-- profile picture end -->
-                                <div class="profile-thumb">
-                                    <a href="#">
-                                        <figure class="profile-thumb-middle">
-                                            <img src="@{/client_assets/images/profile/profile-small-3.jpg" alt="profile picture">
-                                        </figure>
-                                    </a>
-                                </div>
-                                <!-- profile picture end -->
-
-                                <div class="posted-author">
-                                    <h6 class="author"><a href="profile.html">Jon Wileyam</a></h6>
-                                    <span class="post-time">15 min ago</span>
-                                </div>
-
-                                <div class="post-settings-bar">
-                                    <span></span>
-                                    <span></span>
-                                    <span></span>
-                                    <div class="post-settings arrow-shape">
-                                        <ul>
-                                            <li><button>copy link to adda</button></li>
-                                            <li><button>edit post</button></li>
-                                            <li><button>embed adda</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- post title start -->
-                            <div class="post-content">
-                                <p class="post-desc pb-0">
-                                    Many desktop publishing packages and web page editors now use Lorem Ipsum as their
-                                    default model text, and a search for
-                                </p>
-                                <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span>You and 204 people like this</span>
-                                        <strong>204</strong>
-                                    </button>
-                                    <ul class="comment-share-meta">
-                                        <li>
-                                            <button class="post-comment">
-                                                <i class="bi bi-chat-bubble"></i>
-                                                <span>41</span>
-                                            </button>
-                                        </li>
-                                        <li>
-                                            <button class="post-share">
-                                                <i class="bi bi-share"></i>
-                                                <span>07</span>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- post status end -->
                     </div>
-
-                    <div class="col-lg-3 order-3">
-                        <aside class="widget-area">
-                            <!-- widget single item start -->
-                            <div class="card widget-item">
-                                <h4 class="widget-title">Recent Notifications</h4>
-                                <div class="widget-body">
-                                    <ul class="like-page-list-wrapper">
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-9.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Any one can join with us if you want</a></h3>
-                                                <p class="list-subtitle">5 min ago</p>
-                                            </div>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-8.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Any one can join with us if you want</a></h3>
-                                                <p class="list-subtitle">10 min ago</p>
-                                            </div>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-7.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Any one can join with us if you want</a></h3>
-                                                <p class="list-subtitle">18 min ago</p>
-                                            </div>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-6.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Any one can join with us if you want</a></h3>
-                                                <p class="list-subtitle">25 min ago</p>
-                                            </div>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-5.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Any one can join with us if you want</a></h3>
-                                                <p class="list-subtitle">39 min ago</p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- widget single item end -->
-
-                            <!-- widget single item start -->
-                            <div class="card widget-item">
-                                <h4 class="widget-title">Advertizement</h4>
-                                <div class="widget-body">
-                                    <div class="add-thumb">
-                                        <a href="#">
-                                            <img src="@{/client_assets/images/banner/advertise.jpg" alt="advertisement">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- widget single item end -->
-
-                            <!-- widget single item start -->
-                            <div class="card widget-item">
-                                <h4 class="widget-title">Friends Zone</h4>
-                                <div class="widget-body">
-                                    <ul class="like-page-list-wrapper">
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-1.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">arfim bolt</a></h3>
-                                                <p class="list-subtitle"><a href="#">10 mutual</a></p>
-                                            </div>
-                                            <button class="like-button">
-                                                <img class="heart" src="@{/client_assets/images/icons/heart.png" alt="">
-                                                <img class="heart-color" src="@{/client_assets/images/icons/heart-color.png" alt="">
-                                            </button>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-2.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">marry wither</a></h3>
-                                                <p class="list-subtitle"><a href="#">02 mutual</a></p>
-                                            </div>
-                                            <button class="like-button active">
-                                                <img class="heart" src="@{/client_assets/images/icons/heart.png" alt="">
-                                                <img class="heart-color" src="@{/client_assets/images/icons/heart-color.png" alt="">
-                                            </button>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-3.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Rolin Theitar</a></h3>
-                                                <p class="list-subtitle"><a href="#">drama</a></p>
-                                            </div>
-                                            <button class="like-button">
-                                                <img class="heart" src="@{/client_assets/images/icons/heart.png" alt="">
-                                                <img class="heart-color" src="@{/client_assets/images/icons/heart-color.png" alt="">
-                                            </button>
-                                        </li>
-                                        <li class="unorder-list">
-                                            <!-- profile picture end -->
-                                            <div class="profile-thumb">
-                                                <a href="#">
-                                                    <figure class="profile-thumb-small">
-                                                        <img src="@{/client_assets/images/profile/profile-35x35-4.jpg" alt="profile picture">
-                                                    </figure>
-                                                </a>
-                                            </div>
-                                            <!-- profile picture end -->
-
-                                            <div class="unorder-list-info">
-                                                <h3 class="list-title"><a href="#">Active Mind</a></h3>
-                                                <p class="list-subtitle"><a href="#">fitness</a></p>
-                                            </div>
-                                            <button class="like-button">
-                                                <img class="heart" src="@{/client_assets/images/icons/heart.png" alt="">
-                                                <img class="heart-color" src="@{/client_assets/images/icons/heart-color.png" alt="">
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- widget single item end -->
-                        </aside>
+                    <div class="col-lg-2 col-md-3 d-none d-md-block">
+                        <div class="profile-edit-panel">
+                            <button name="share" class="share-text-field edit-btn" aria-disabled="true"
+                                    data-bs-toggle="modal" data-bs-target="#textbox">Cập nhật tài khoản
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 order-2 order-lg-1">
+                    <aside class="widget-area profile-sidebar">
+                        <div th:if="${success}" th:text="${success}" class="alert alert-success"
+                             style="display: flex; justify-content: center; color: white;">
+                        </div>
+                        <div th:if="${raMessage}" class="alert alert-success text-center">
+                            [[${raMessage}]]
+                        </div>
+                        <div th:if="${error}" th:text="${error}" class="alert alert-danger"
+                        >
+                        </div>
+
+                        <!-- widget single item start -->
+                        <div class="card widget-item">
+                            <h4 class="widget-title" th:text="${user.fullName}"></h4>
+                            <div class="widget-body">
+                                <div class="about-author">
+                                    <p th:unless="${user.userInfo.otherInfo}" th:text="' Bạn đang nghĩ gì?'"></p>
+                                    <p th:if="${user.userInfo.otherInfo}" th:text="${user.userInfo.otherInfo}"></p>
+                                    <ul class="author-into-list">
+                                        <li><a><i class="bi bi-office-bag"></i><a th:if="${user.userInfo.currentJob}"
+                                                                                  th:text="'Hiện đang là '+${user.userInfo.currentJob}"></a><a
+                                                th:unless="${user.userInfo.currentJob}">Nghề nghiệp?</a></a></li>
+                                        <li><a><i class="bi bi-worker-cap"></i><a th:if="${user.userInfo.workingAt}"
+                                                                                  th:text="'Làm việc tại '+${user.userInfo.workingAt}"></a><a
+                                                th:unless="${user.userInfo.workingAt}">Làm việc tại?</a></a></li>
+                                        <li><a><i class="bi bi-location-pointer"></i><a
+                                                th:if="${user.userInfo.livingAt}"
+                                                th:text="'Sống tại '+${user.userInfo.livingAt}"></a><a
+                                                th:unless="${user.userInfo.livingAt}">Sống tại?</a></a></li>
+                                        <li>
+                                            <a>
+                                                <i class="bi bi-playing-card"></i><a th:if="${user.userInfo.favorites}"
+                                                                                    th:text="'Sở thích '+${user.userInfo.favorites}">
+
+                                                 </a>
+                                                        <a th:unless="${user.userInfo.favorites}">Sở thích?
+                                                        </a>
+                                                 </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- widget single item end -->
+
+                        <!-- widget single item start -->
+                        <div class="card widget-item">
+                            <h4 class="widget-title">Sweets Memories</h4>
+                            <div class="widget-body">
+                                <div class="sweet-galley img-gallery">
+                                    <div class="row row-5">
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_@{/client_assets/images/gallery/gallery-1.jpg}">
+                                                        <img src="@{/client_@{/client_assets/images/gallery/gallery-1.jpg}"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_@{/client_assets/images/gallery/gallery-2.jpg">
+                                                        <img src="@{/client_@{/client_assets/images/gallery/gallery-2.jpg"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_@{/client_assets/images/gallery/gallery-3.jpg">
+                                                        <img src="@{/client_@{/client_assets/images/gallery/gallery-3.jpg"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_@{/client_assets/images/gallery/gallery-4.jpg">
+                                                        <img src="@{/client_@{/client_assets/images/gallery/gallery-4.jpg"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_assets/images/gallery/gallery-5.jpg">
+                                                        <img src="@{/client_@{/client_assets/images/gallery/gallery-5.jpg}"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_@{/client_@{/client_assets/images/gallery/gallery-6.jpg}">
+                                                        <img src="@{/client_@{/client_@{/client_assets/images/gallery/gallery-6.jpg}"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_@{/client_assets/images/gallery/gallery-7.jpg}">
+                                                        <img src="@{/client_@{/client_assets/images/gallery/gallery-7.jpg}"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_assets/images/gallery/gallery-8.jpg}">
+                                                        <img src="@{/client_assets/images/gallery/gallery-8.jpg}"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="gallery-tem">
+                                                <figure class="post-thumb">
+                                                    <a class="gallery-selector"
+                                                       href="@{/client_assets/images/gallery/gallery-9.jpg}">
+                                                        <img src="@{/client_assets/images/gallery/gallery-9.jpg}"
+                                                             alt="sweet memory">
+                                                    </a>
+                                                </figure>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- widget single item end -->
+                    </aside>
+                </div>
+
+                <div class="col-lg-6 order-1 order-lg-2">
+                    <!-- share box start -->
+                    <div class="card card-small">
+                        <div>
+                            <a href="/post" class="share-box-inner">
+                                <!-- share content box start -->
+                                <button class="share-content-box w-100" type="submit" style="text-align: center">
+                                    <div class="share-text-box">
+                                        <p class="btn-outline-dark"><i class="bi bi-bowl"></i> Viết món ăn của bạn</p>
+                                    </div>
+                                </button>
+                            </a>
+                            <!-- Modal start -->
+                            <div class="modal fade" id="textbox" aria-labelledby="textbox">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Cập Nhật Thông Tin</h5>
+                                            <button type="button" class="close" data-bs-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form th:action="@{/updateInfo}" th:object="${userInfo}" method="post"
+                                              enctype="multipart/form-data">
+                                            <input type="hidden" th:field="*{id}">
+                                            <div class="modal-body custom-scroll">
+                                                <div th:if="${errorMessage}" class="alert alert-danger">
+                                                    <p th:text="${errorMessage}"></p>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-12 mgb">
+                                                        <div class="form-group">
+                                                            <label for="fullName">Họ tên</label>
+                                                            <input type="text" id="fullName" class="form-control"
+                                                                   name="fullName"
+                                                                   th:field="*{user.fullName}">
+                                                            <div class="invalid-feedback"
+                                                                 th:errors="*{user.fullName}"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-12 mgb">
+                                                        <div class="form-group">
+                                                            <label for="job">Nghề nghiệp</label>
+                                                            <input type="text" id="job" name="job" class="form-control"
+                                                                   th:field="*{currentJob}">
+                                                            <div class="invalid-feedback"
+                                                                 th:errors="*{currentJob}"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 col-12 mgb">
+                                                        <div class="form-group">
+                                                            <label for="workingAt">Làm việc tại</label>
+                                                            <input type="text" id="workingAt" class="form-control"
+                                                                   name="workingAt"
+                                                                   th:field="*{workingAt}">
+                                                            <div class="invalid-feedback"
+                                                                 th:errors="*{workingAt}"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 col-12 mgb">
+                                                        <div class="form-group">
+                                                            <label for="favorites">Sở thích</label>
+                                                            <input type="text" id="favorites" class="form-control"
+                                                                   name="favorites"
+                                                                   th:field="*{favorites}">
+                                                            <div class="invalid-feedback"
+                                                                 th:errors="*{favorites}"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 col-12 mgb">
+                                                        <div class="form-group">
+                                                            <label for="dateOfBirth">Ngày sinh</label>
+                                                            <input type="date" id="dateOfBirth" class="form-control"
+                                                                   name="dateOfBirth"
+                                                                   th:field="*{dateOfBirth}">
+                                                            <div class="invalid-feedback"
+                                                                 th:errors="*{dateOfBirth}"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 col-12 mgb">
+                                                        <div class="form-group">
+                                                            <label for="dateOfBirth">Sống tại</label>
+                                                            <input type="text" id="livingAt" class="form-control"
+                                                                   name="livingAt"
+                                                                   th:field="*{livingAt}">
+                                                            <div class="invalid-feedback" th:errors="*{livingAt}"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-md-6 col-12 mgb">
+                                                        <label for="dateOfBirth">Giới tính</label>
+                                                        <div class="form-group">
+
+                                                            <select class="form-control" th:field="*{user.gender}">
+                                                                <option value="male">Nam</option>
+                                                                <option value="female">Nữ</option>
+                                                                <option value="order">Khác</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6 col-12 mgb">
+                                                        <div class="form-group">
+                                                            <input type="file" required name="imageFile" id="imageFile"
+                                                                   accept=".png, .jpg, .jpeg"
+                                                                   class="form-control d-none"/>
+                                                            <label style="cursor: pointer;font-weight: bold;"
+                                                                   for="imageFile"
+                                                                   class="col-form-label text-center">
+                                                                <!-- Sử dụng lớp text-center ở đây -->
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                     height="20" fill="none"
+                                                                     viewBox="0 0 20 20"
+                                                                     class="loading:hidden mise-icon mise-icon-camera">
+                                                                    <path stroke="currentColor" stroke-width="1.3"
+                                                                          d="M15 17.5H5a3.333 3.333 0 0 1-3.333-3.333v-7.5c0-.92.746-1.667 1.667-1.667h1.608c.557 0 1.077-.279 1.386-.742l.677-1.016c.31-.463.83-.742 1.387-.742h3.216c.557 0 1.078.279 1.387.742l.677 1.016c.31.463.83.742 1.387.742h1.608c.92 0 1.666.746 1.666 1.667v7.5A3.333 3.333 0 0 1 15 17.5Z"></path>
+                                                                    <circle cx="4.167" cy="7.5" r=".833"
+                                                                            fill="currentColor" stroke="currentColor"
+                                                                            stroke-width=".1"
+                                                                            transform="rotate(-180 4.167 7.5)"></circle>
+                                                                    <circle cx="10" cy="10.834" r="2.5"
+                                                                            stroke="currentColor"
+                                                                            stroke-width="1.3"></circle>
+                                                                </svg>
+                                                                Thay đổi ảnh đại diện của bạn
+                                                            </label>
+                                                            <div id="thumbnailDiv"
+                                                                 style="max-width: 100%; max-height: 100%; margin-top: 10px;">
+                                                                <img id="thumbnail" class="rounded-avatar"
+                                                                     alt="image-preview"
+                                                                     th:src="@{${user.avatarImagePath}}"/>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <textarea name="share" class="share-field-big custom-scroll"
+                                                              th:field="*{otherInfo}"
+                                                              placeholder="Hãy viết gì đó về bạn."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="post-share-btn" data-bs-dismiss="modal">
+                                                    Huỷ
+                                                </button>
+                                                <button type="submit" class="post-share-btn">Lưu</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modal end -->
+                        </div>
+                    </div>
+                    <!-- share box end -->
+                    <th:block th:if="${listPosts}" th:each="post : ${listPosts}">
+                        <!-- post status start -->
+                        <div class="card">
+                            <!-- post title start -->
+                            <div class="post-title d-flex align-items-center">
+                                <!-- profile picture end -->
+                                <div class="profile-thumb">
+                                    <a href="#">
+                                        <figure class="profile-thumb-middle">
+                                            <img th:unless="${user.avatarImagePath}" alt="avatar-image"
+                                                 src="/client_assets/images/davatar.png"/>
+                                            <img th:if="${user.avatarImagePath}" alt="avatar-image"
+                                                 th:src="@{${user.avatarImagePath}}"/>
+                                        </figure>
+                                    </a>
+                                </div>
+                                <!-- profile picture end -->
+
+                                <div class="posted-author">
+                                    <h6 class="author"><a href="/profile" th:text="${user.fullName}"></a></h6>
+                                    <span class="post-time" th:text="${post.createdAt}"></span>
+                                </div>
+
+                                <div class="post-settings-bar">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <div class="post-settings arrow-shape">
+                                        <ul>
+                                            <li>
+                                                <button>copy link to adda</button>
+                                            </li>
+                                            <li>
+                                                <button>edit post</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- post title start -->
+                            <div class="post-content">
+                                <p class="post-desc" th:text="${post.description}">
+                                </p>
+                                <div class="post-thumb-gallery img-gallery">
+                                    <div class="row g-0">
+                                        <div class="">
+                                            <figure class="post-thumb">
+                                                <a class="gallery-selector"
+                                                   href="@{/client_assets/images/post/post-2.jpg">
+                                                    <img th:src="@{${post.postImagePath}}" alt="post image">
+                                                </a>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-meta">
+                                    <button class="post-meta-like">
+                                        <i class="bi bi-heart-beat"></i>
+                                        <span th:text="${post.likeCount}"></span>
+                                    </button>
+                                    share - comments
+                                    <ul class="comment-share-meta">
+                                        <li>
+                                            <button class="post-comment">
+                                                <i class="bi bi-chat-bubble"></i>
+                                                <span>41</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="post-share">
+                                                <i class="bi bi-share"></i>
+                                                <span>07</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                    <th:block th:if="${listPostsEmpty}">
+                        <div class="card">
+                            <!-- post title start -->
+                            <div class="post-title d-flex align-items-center">
+                                <!-- profile picture end -->
+                                <div class="profile-thumb">
+                                    <a href="#">
+                                        <figure class="profile-thumb-middle">
+                                            <img th:unless="${user.avatarImagePath}" alt="avatar-image"
+                                                 src="/client_assets/images/davatar.png"/>
+                                            <img th:if="${user.avatarImagePath}" alt="avatar-image"
+                                                 th:src="@{${user.avatarImagePath}}"/>
+                                        </figure>
+                                    </a>
+                                </div>
+                                <!-- profile picture end -->
+
+                                <div class="posted-author">
+                                    <h6 class="author"><a href="/profile" th:text="${user.fullName}"></a></h6>
+                                    <span class="post-time"></span>
+                                </div>
+
+                                <div class="post-settings-bar">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <div class="post-settings arrow-shape">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- post title start -->
+                            <div class="post-content">
+                                <p class="post-desc">Bạn chưa có hoạt động nào cả, hãy chia
+                                    sẽ những công thức thú vị của mình ngay nào
+                                </p>
+                                <div class="post-thumb-gallery img-gallery">
+                                    <div class="row g-0">
+                                        <div class="">
+                                            <figure class="post-thumb">
+                                                <a class="gallery-selector"
+                                                   href="@{/client_assets/images/post/post-2.jpg">
+                                                    <img src="/client_assets/images/oops.png" alt="post image">
+                                                </a>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-meta">
+                                    <button class="post-meta-like">
+                                        <i class="bi bi-heart-beat"></i>
+                                        <span></span>
+                                    </button>
+                                    share - comments
+                                    <ul class="comment-share-meta">
+                                        <li>
+                                            <button class="post-comment">
+                                                <i class="bi bi-chat-bubble"></i>
+                                                <span>41</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="post-share">
+                                                <i class="bi bi-share"></i>
+                                                <span>07</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#imageFile').change(function () {
+                    showImageThumbnail(this);
+                });
+            });
+
+            function showImageThumbnail(inputFile) {
+                file = inputFile.files[0];
+                reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#thumbnail').attr('src', e.target.result);
+                };
+
+                reader.readAsDataURL(file);
+            }
+        </script>
+    </div>
 </div>
 </body>
 </html>

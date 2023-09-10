@@ -46,6 +46,7 @@ public class UserInfo {
 
     @Column(name = "created_at")
     @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date createdAt;
 
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)

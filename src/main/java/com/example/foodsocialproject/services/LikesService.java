@@ -21,10 +21,6 @@ public class LikesService implements TableService{
 
     @Override
     public void delete(UUID id) {
-        Long count = likesRepository.countById(id);
-        if (count == null || count == 0) {
-            throw new ResourceNotFoundException("Không tìm thấy ID: " + id);
-        }
         likesRepository.deleteById(id);
     }
 
@@ -36,5 +32,9 @@ public class LikesService implements TableService{
         }
         else
             throw new ResourceNotFoundException("Không tìm ID: " + id + "!");
+    }
+
+    public void save(Likes postLike) {
+        likesRepository.save(postLike);
     }
 }

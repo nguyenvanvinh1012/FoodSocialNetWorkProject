@@ -13,6 +13,7 @@ import com.example.foodsocialproject.services.UserServices;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -28,7 +29,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,7 +41,12 @@ public class HomeController {
     private final UserInfoService userInfoService;
 
     @GetMapping("")
-    public String index(){
+    public String index(Model model,Principal p){
+        List<Posts> listPosts = postsService.getList().stream().sorted(Comparator.comparing(Posts::getCreatedAt,Comparator.reverseOrder())).collect(Collectors.toList());
+        model.addAttribute("listPosts",listPosts);
+        String userEmail = p.getName();
+        Users foundUser = userService.findbyEmail(userEmail).get();
+        model.addAttribute("user",foundUser);
         return "client/home/index";
     }
     @GetMapping("/login")
@@ -50,10 +57,11 @@ public class HomeController {
     public String profile(Principal p, Model model){
         String userEmail = p.getName();
         Users foundUser = userService.findbyEmail(userEmail).get();
+        List<Posts> userPosts = foundUser.getPosts().stream().filter(post -> post.getUser().getEmail().equals(userEmail)).toList();
         model.addAttribute("user",foundUser);
         model.addAttribute("userInfo",foundUser.getUserInfo());
-        model.addAttribute("listPosts",foundUser.getPosts());
-       if (foundUser.getPosts().isEmpty()){
+        model.addAttribute("listPosts",userPosts);
+       if (userPosts.isEmpty()){
            model.addAttribute("listPostsEmpty",true);
        }
         return "client/home/profile";
@@ -108,15 +116,20 @@ public class HomeController {
        recipe.setImage(mainFileName);
 
        int count=0;
+        List<Steps> stepsList = new ArrayList<Steps>();
        for (MultipartFile extraMultiPart : extraMultipartFile){
            String extraImageName = StringUtils.cleanPath(extraMultiPart.getOriginalFilename());
            if (count<=numberOfImages){
-               recipe.getSteps().get(count).setStepImg(extraImageName);
-               recipe.getSteps().get(count).setStepNumber(count+1);
-               recipe.getSteps().get(count).setRecipe(recipe);
+               Steps step = new Steps();
+               step.setStepImg(extraImageName);
+               step.setStepNumber(count+1);
+               step.setRecipe(recipe);
+
+               stepsList.add(step);
            }
           count++;
        }
+       recipe.setSteps(stepsList);
         recipe.setUser(foundUser);
         for (Ingredients ingredient:recipe.getIngredients()
         ) {
@@ -140,5 +153,13 @@ public class HomeController {
         model.addAttribute("userInfo",foundUser.getUserInfo());
         model.addAttribute("listPosts",foundUser.getPosts());
         return "client/home/profile";
+    }
+
+    @GetMapping("/post-details/{id}")
+    public String getPostDetails(@PathVariable("id") UUID id, Model model){
+        Posts post = postsService.findByID(id);
+        model.addAttribute("post",post);
+        return "client/home/post_details";
+
     }
 }

@@ -43,4 +43,8 @@ public class PostsService implements TableService{
         postsRepository.save(recipe);
         return recipe;
     }
+
+    public Posts findByID(UUID id) {
+        return postsRepository.findByID(id);
+    }
 }

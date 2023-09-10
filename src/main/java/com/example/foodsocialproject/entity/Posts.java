@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -44,10 +45,11 @@ public class Posts {
     private String cookingTime;
 
     @Column(name = "like_count")
-    private int likeCount;
+    private int likeCount=0;
 
     @Column(name = "created_at")
     @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date createdAt;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
@@ -55,8 +57,11 @@ public class Posts {
     private List<Likes> likes;
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Ingredients> ingredients;
+
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Steps> steps;
 
     @Transient
@@ -66,22 +71,5 @@ public class Posts {
         }
         return "/post-images/" + id + "/" + image;
     }
-    @Override
-    public String toString() {
-        return "Posts{" +
-                "id=" + id +
-                ", user=" + user +
-                ", image='" + image + '\'' +
-                ", foodName='" + foodName + '\'' +
-                ", description='" + description + '\'' +
-                ", serving_size='" + serving_size + '\'' +
-                ", cookingTime='" + cookingTime + '\'' +
-                ", likeCount=" + likeCount +
-                ", likes=" + likes +
-                ", ingredients=" + ingredients +
-                ", steps=" + steps +
-                '}';
-    }
-
 
 }

@@ -12,4 +12,7 @@ public interface PostsRepository extends JpaRepository<Posts, UUID> {
 
     @Query("SELECT COUNT(*) FROM Posts")
     Long countPostsById(UUID userId);
+
+    @Query("SELECT p FROM Posts p WHERE p.id =:id")
+    Posts findByID(UUID id);
 }

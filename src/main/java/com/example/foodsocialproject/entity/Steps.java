@@ -40,6 +40,6 @@ public class Steps {
         if (id == null||stepImg==null) {
             return null;
         }
-        return "/steps-images/" + id + "/" + stepImg;
+        return stepImg;
     }
 }

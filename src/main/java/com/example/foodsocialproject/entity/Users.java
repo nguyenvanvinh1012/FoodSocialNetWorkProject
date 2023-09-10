@@ -49,7 +49,7 @@ public class Users {
     @JsonProperty("is_active")
     private boolean isActive = false;
 
-    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private UserInfo userInfo;
 
@@ -68,7 +68,7 @@ public class Users {
     @JsonIgnore
     private List<Posts> posts;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Likes> likes;
 

@@ -6,6 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Trang chủ</title>
+    <style>
+        .rounded-avatar {
+            width: 70px; /* Điều chỉnh kích thước ảnh theo mong muốn */
+            height: 50px; /* Điều chỉnh kích thước ảnh theo mong muốn */
+            object-fit: cover; /* Đảm bảo hình ảnh bị cắt tỉa để vừa trong kích thước khung */
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
@@ -16,97 +23,34 @@
                     <aside class="widget-area">
                         <!-- widget single item start -->
                         <div class="card widget-item">
-                            <h4 class="widget-title">page you may like</h4>
+                            <h4 class="widget-title">Bài viết bạn có thể thích</h4>
                             <div class="widget-body">
                                 <ul class="like-page-list-wrapper">
+                                    <th:block th:each="post : ${topPosts}">
                                     <li class="unorder-list">
                                         <!-- profile picture end -->
                                         <div class="profile-thumb">
-                                            <a href="#">
-                                                <figure class="profile-thumb-small">
-                                                    <img src="client_assets/images/profile/profile-35x35-1.jpg"
-                                                         alt="profile picture">
+                                            <a th:href="@{'/post-details/' +${post.id}}">
+                                                <figure>
+                                                    <img th:src="@{${post.postImagePath}}"
+                                                         class="rounded-avatar" alt="profile picture">
                                                 </figure>
                                             </a>
                                         </div>
                                         <!-- profile picture end -->
 
                                         <div class="unorder-list-info">
-                                            <h3 class="list-title"><a href="#">Travel The World</a></h3>
-                                            <p class="list-subtitle"><a href="#">adventure</a></p>
+                                            <h3 class="list-title"><a th:href="@{'/post-details/' +${post.id}}" th:text="${post.foodName}"></a></h3>
+                                            <p class="list-subtitle"><a th:href="@{'/profile/' +${post.user.id}}" th:text="${post.user.fullName}"></a></p>
                                         </div>
+                                        <p th:text="${post.likeCount}" style="margin-top: 20px;margin-right: 5px;"></p>
                                         <button class="like-button active">
                                             <img class="heart" src="client_assets/images/icons/heart.png" alt="">
                                             <img class="heart-color" src="client_assets/images/icons/heart-color.png"
                                                  alt="">
                                         </button>
                                     </li>
-                                    <li class="unorder-list">
-                                        <!-- profile picture end -->
-                                        <div class="profile-thumb">
-                                            <a href="#">
-                                                <figure class="profile-thumb-small">
-                                                    <img src="client_assets/images/profile/profile-35x35-10.jpg"
-                                                         alt="profile picture">
-                                                </figure>
-                                            </a>
-                                        </div>
-                                        <!-- profile picture end -->
-
-                                        <div class="unorder-list-info">
-                                            <h3 class="list-title"><a href="#">Foodcort Nirala</a></h3>
-                                            <p class="list-subtitle"><a href="#">food</a></p>
-                                        </div>
-                                        <button class="like-button">
-                                            <img class="heart" src="client_assets/images/icons/heart.png" alt="">
-                                            <img class="heart-color" src="client_assets/images/icons/heart-color.png"
-                                                 alt="">
-                                        </button>
-                                    </li>
-                                    <li class="unorder-list">
-                                        <!-- profile picture end -->
-                                        <div class="profile-thumb">
-                                            <a href="#">
-                                                <figure class="profile-thumb-small">
-                                                    <img src="client_assets/images/profile/profile-35x35-5.jpg"
-                                                         alt="profile picture">
-                                                </figure>
-                                            </a>
-                                        </div>
-                                        <!-- profile picture end -->
-
-                                        <div class="unorder-list-info">
-                                            <h3 class="list-title"><a href="#">Rolin Theitar</a></h3>
-                                            <p class="list-subtitle"><a href="#">drama</a></p>
-                                        </div>
-                                        <button class="like-button">
-                                            <img class="heart" src="client_assets/images/icons/heart.png" alt="">
-                                            <img class="heart-color" src="client_assets/images/icons/heart-color.png"
-                                                 alt="">
-                                        </button>
-                                    </li>
-                                    <li class="unorder-list">
-                                        <!-- profile picture end -->
-                                        <div class="profile-thumb">
-                                            <a href="#">
-                                                <figure class="profile-thumb-small">
-                                                    <img src="client_assets/images/profile/profile-35x35-4.jpg"
-                                                         alt="profile picture">
-                                                </figure>
-                                            </a>
-                                        </div>
-                                        <!-- profile picture end -->
-
-                                        <div class="unorder-list-info">
-                                            <h3 class="list-title"><a href="#">Active Mind</a></h3>
-                                            <p class="list-subtitle"><a href="#">fitness</a></p>
-                                        </div>
-                                        <button class="like-button">
-                                            <img class="heart" src="client_assets/images/icons/heart.png" alt="">
-                                            <img class="heart-color" src="client_assets/images/icons/heart-color.png"
-                                                 alt="">
-                                        </button>
-                                    </li>
+                                    </th:block>
                                 </ul>
                             </div>
                         </div>
@@ -121,7 +65,7 @@
                                         <!-- profile picture end -->
                                         <div class="profile-thumb">
                                             <a href="#">
-                                                <figure class="profile-thumb-small">
+                                                <figure class="">
                                                     <img src="client_assets/images/profile/profile-35x35-20.jpg"
                                                          alt="profile picture">
                                                 </figure>
@@ -274,7 +218,7 @@
                             </div>
                             <!-- post title start -->
                             <div class="post-content">
-                                <h4 class="widget-title text-center" style="margin-bottom: 17px;" th:text="${post.foodName}"></h4>
+                                <h4 class="widget-title text-center" style="margin-bottom: 17px;margin-top: 17px;" th:text="${post.foodName}"></h4>
                                 <p class="post-desc" th:text="${post.description}">
                                 </p>
                                 <div class="post-thumb-gallery img-gallery">

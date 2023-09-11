@@ -47,6 +47,8 @@ public class HomeController {
         String userEmail = p.getName();
         Users foundUser = userService.findbyEmail(userEmail).get();
         model.addAttribute("user",foundUser);
+        List<Posts> topPosts = postsService.get5PostsTopLike();
+        model.addAttribute("topPosts",topPosts);
         return "client/home/index";
     }
     @GetMapping("/login")
@@ -64,6 +66,13 @@ public class HomeController {
     public String seeProfile(@PathVariable("id") UUID id, Principal p, Model model){
         Users foundUser = userService.findById(id);
         return getString(model, foundUser);
+    }
+
+    @GetMapping("/post-edit/{id}")
+    public String editPost(@PathVariable("id") UUID id, Model model){
+        Posts foundPosts = postsService.findByID(id);
+    model.addAttribute("recipe", foundPosts);
+        return "client/home/createPost";
     }
 
     private String getString(Model model, Users foundUser) {

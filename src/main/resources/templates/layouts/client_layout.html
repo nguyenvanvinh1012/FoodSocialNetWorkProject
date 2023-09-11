@@ -540,9 +540,9 @@
                                                 // Loop through the search results and add each user to the table
                                                 data.forEach((post) => {
                                                     const search = `
-                                                      <li class="d-flex align-items-center profile-active">
+                                                      <li style="cursor: text" class="d-flex align-items-center profile-active">
                                             <!-- profile picture end -->
-                                            <div class="profile-thumb active">
+                                            <div class="profile-thumb">
                                                 <a href="/post-details/${post.id}">
                                                     <figure class="profile-thumb-small">
                                                         <img src="${post.postImagePath}"
@@ -553,9 +553,9 @@
                                             <!-- profile picture end -->
 
                                             <div class="posted-author">
-                                                <h6 class="author">${post.foodName}</h6>
-                                                <p style="margin: 0 0;">${post.user.fullName}</p>
-                                                <p style="color: #cb4e44">${post.likeCount} lượt thích</p>
+                                               <a href="/post-details/${post.id}" style="text-decoration: none;"><h6 style="margin-bottom: 5px;color: black" class="author">${post.foodName}</h6></a>
+                                                <a href="/profile/${post.user.id}" style="margin: 0 0;text-decoration: none;">${post.user.fullName}</a>
+                                                <p style="color: #cb4e44;padding-top: 0;">${post.likeCount} lượt thích</p>
 
                                             </div>
                                         </li>

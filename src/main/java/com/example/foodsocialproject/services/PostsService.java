@@ -54,4 +54,8 @@ public class PostsService implements TableService{
         }
         return postsRepository.findAll();
     }
+
+    public List<Posts> get5PostsTopLike() {
+        return this.postsRepository.get5PostsTopLike();
+    }
 }

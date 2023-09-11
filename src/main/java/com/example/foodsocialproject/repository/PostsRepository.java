@@ -19,6 +19,8 @@ public interface PostsRepository extends JpaRepository<Posts, UUID> {
 
     @Query("SELECT p FROM Posts p WHERE p.foodName LIKE %?1%")
     List<Posts> search(String q);
-/*    @Query("SELECT p FROM Posts p WHERE p.foodName LIKE %?1%")
-    List<Posts> returnTopLike(String q);*/
+
+    @Query("SELECT p FROM Posts p order by p.likeCount desc limit 5")
+    List<Posts> get5PostsTopLike();
+
 }

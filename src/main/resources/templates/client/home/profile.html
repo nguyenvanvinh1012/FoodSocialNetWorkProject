@@ -280,12 +280,12 @@
                             <div class="post-title d-flex align-items-center">
                                 <!-- profile picture end -->
                                 <div class="profile-thumb">
-                                    <a href="#">
+                                    <a th:href="@{'/profile/' +${post.user.id}}">
                                         <figure class="profile-thumb-middle">
-                                            <img th:unless="${user.avatarImagePath}" alt="avatar-image"
+                                            <img th:unless="${post.user.avatarImagePath}" alt="avatar-image"
                                                  src="/client_assets/images/davatar.png"/>
-                                            <img th:if="${user.avatarImagePath}" alt="avatar-image"
-                                                 th:src="@{${user.avatarImagePath}}"/>
+                                            <img th:if="${post.user.avatarImagePath}" alt="avatar-image"
+                                                 th:src="@{${post.user.avatarImagePath}}"/>
                                         </figure>
                                     </a>
                                 </div>
@@ -296,27 +296,25 @@
                                     <span class="post-time" th:text="${#dates.format(post.createdAt, 'HH:mm')} + ' Ngày ' + ${#dates.format(post.createdAt, 'dd/MM/yyyy')}"></span>
                                 </div>
 
-                                <a class="post-settings-bar" th:href="@{'/post-details/' +${post.id}}">
+                                <div class="post-settings-bar">
                                     <span></span>
                                     <span></span>
                                     <span></span>
                                     <div class="post-settings arrow-shape">
                                         <ul>
                                             <li>
-                                                <button>copy link to adda</button>
+                                                <button><a th:href="@{'/post-edit/' +${post.id}}">Edit post</a></button>
                                             </li>
                                             <li>
-                                                <button>edit post</button>
-                                            </li>
-                                            <li>
-                                                <button>See details</button>
+                                                <button><a th:href="@{'/post-details/' +${post.id}}">See details</a></button>
                                             </li>
                                         </ul>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                             <!-- post title start -->
                             <div class="post-content">
+                                <h4 class="widget-title text-center" style="margin-bottom: 17px;margin-top: 17px;" th:text="${post.foodName}"></h4>
                                 <p class="post-desc" th:text="${post.description}">
                                 </p>
                                 <div class="post-thumb-gallery img-gallery">
@@ -324,7 +322,7 @@
                                         <div class="">
                                             <figure class="post-thumb">
                                                 <a class="gallery-selector"
-                                                   href="@{/client_assets/images/post/post-2.jpg">
+                                                   th:href="@{${post.postImagePath}}">
                                                     <img th:src="@{${post.postImagePath}}" alt="post image">
                                                 </a>
                                             </figure>
@@ -332,11 +330,49 @@
                                     </div>
                                 </div>
                                 <div class="post-meta">
-                                    <button class="post-meta-like">
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span th:text="${post.likeCount}"></span>
+                                    <!--button like post-->
+                                    <button class="post-meta-like" th:id="'likeBtn_' + ${post.id}" style="position: relative;display: inline-block" th:attr="onclick=|likePost('${post.id}')|">
+                                        <img class="heart" src="client_assets/images/icons/heart.png" style="position: absolute;top: 0;left: 0;z-index: 1" alt="">
+                                        <th:block th:each="like : ${post.likes}">
+                                            <img th:if="${like.user==user}" class="heart-color" style="position: absolute;top: 0;left: 0;z-index: 0" src="client_assets/images/icons/heart-color.png" alt="">
+                                        </th:block>
+                                        <span style="margin-left: 20px;" th:id="'likeCount_' + ${post.id}" th:text="${post.likeCount}"></span>
                                     </button>
-                                    share - comments
+                                    <script>
+                                        function likePost(id) {
+                                            $.ajax({
+                                                url: '/api/like',
+                                                type: 'GET',
+                                                data: {id: id},
+                                                success: function (response) {
+                                                    // Cập nhật số lượt like trên giao diện cho post cụ thể
+                                                    const buttonLike = document.querySelector('#likeBtn_' + id);
+                                                    var likeCountSpan = document.querySelector('#likeCount_' + id);
+                                                    if (response === true) {
+                                                        var likeCount = parseInt(likeCountSpan.innerText);
+                                                        likeCount++;
+                                                        likeCountSpan.innerText = likeCount.toString();
+                                                        const liked = `<img class="heart-color" style="position: absolute;top: 0;left: 0;z-index: 0" src="client_assets/images/icons/heart-color.png" alt="">`;
+                                                        buttonLike.innerHTML+=liked;
+                                                    } else {
+                                                        const imgColor =buttonLike.querySelectorAll('.heart-color');
+                                                        for (let i=0;i<imgColor.length;i++) {
+                                                            buttonLike.removeChild(imgColor[i])
+
+                                                        }
+                                                        var likeCount = parseInt(likeCountSpan.innerText);
+                                                        likeCount--;
+                                                        likeCountSpan.innerText = likeCount.toString();
+                                                    }
+
+                                                },
+                                                error: function (error) {
+                                                    console.log('Error:', error);
+                                                }
+                                            });
+                                        }
+                                    </script>
+                                    <!--  share - comments-->
                                     <ul class="comment-share-meta">
                                         <li>
                                             <button class="post-comment">

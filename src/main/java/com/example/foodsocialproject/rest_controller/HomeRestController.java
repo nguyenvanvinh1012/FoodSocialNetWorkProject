@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.sql.Like;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -24,13 +25,12 @@ public class HomeRestController {
 
     @GetMapping("/like")
     @ResponseBody
-    public ResponseEntity<String> likePost(@RequestParam("id") String id, final HttpServletRequest request) {
+    public Boolean likePost(@RequestParam("id") String id, final HttpServletRequest request) {
         String userEmail = request.getUserPrincipal().getName();
         Users user = userServices.findbyEmail(userEmail).get();
-
         Posts post = postsService.findByID(UUID.fromString(id));
         if (post == null) {
-            return ResponseEntity.notFound().build();
+            throw new RuntimeException("Could not find post");
         }
         Likes check = null;
         for (Likes like : post.getLikes()) {
@@ -46,8 +46,7 @@ public class HomeRestController {
             postLike.setUser(user);
             likeService.save(postLike);
             postsService.save(post);
-            System.out.println("LIKED");
-            return ResponseEntity.ok("Liked");
+            return true;
         }
 //unlike
             post.getLikes().remove(check);
@@ -55,8 +54,14 @@ public class HomeRestController {
             post.setLikeCount(post.getLikeCount() - 1);
             post.getSteps().remove(check);
             postsService.save(post);
-            System.out.println("unliked");
-            return ResponseEntity.ok("Unliked");
+            return false;
 
+    }
+
+    @GetMapping("/search")
+    @ResponseBody
+    public List<Posts> searchUsers(@RequestParam("q") String q) {
+        List<Posts> posts = postsService.search(q);
+        return posts;
     }
 }

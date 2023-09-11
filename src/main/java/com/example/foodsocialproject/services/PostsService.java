@@ -47,4 +47,11 @@ public class PostsService implements TableService{
     public Posts findByID(UUID id) {
         return postsRepository.findByID(id);
     }
+
+    public List<Posts> search(String q) {
+        if (q != null) {
+            return postsRepository.search(q);
+        }
+        return postsRepository.findAll();
+    }
 }

@@ -293,10 +293,10 @@
 
                                 <div class="posted-author">
                                     <h6 class="author"><a href="/profile" th:text="${user.fullName}"></a></h6>
-                                    <span class="post-time" th:text="${post.createdAt}"></span>
+                                    <span class="post-time" th:text="${#dates.format(post.createdAt, 'HH:mm')} + ' Ngày ' + ${#dates.format(post.createdAt, 'dd/MM/yyyy')}"></span>
                                 </div>
 
-                                <div class="post-settings-bar">
+                                <a class="post-settings-bar" th:href="@{'/post-details/' +${post.id}}">
                                     <span></span>
                                     <span></span>
                                     <span></span>
@@ -308,9 +308,12 @@
                                             <li>
                                                 <button>edit post</button>
                                             </li>
+                                            <li>
+                                                <button>See details</button>
+                                            </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </a>
                             </div>
                             <!-- post title start -->
                             <div class="post-content">

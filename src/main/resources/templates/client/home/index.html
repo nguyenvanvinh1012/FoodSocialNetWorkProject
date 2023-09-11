@@ -249,8 +249,10 @@
                                 <!-- profile picture end -->
 
                                 <div class="posted-author">
-                                    <h6 class="author"><a th:href="@{'/profile/' +${post.user.id}}" th:text="${post.user.fullName}"></a></h6>
-                                    <span class="post-time" th:text="${#dates.format(post.createdAt, 'HH:mm')} + ' Ngày ' + ${#dates.format(post.createdAt, 'dd/MM/yyyy')}"></span>
+                                    <h6 class="author"><a th:href="@{'/profile/' +${post.user.id}}"
+                                                          th:text="${post.user.fullName}"></a></h6>
+                                    <span class="post-time"
+                                          th:text="${#dates.format(post.createdAt, 'HH:mm')} + ' Ngày ' + ${#dates.format(post.createdAt, 'dd/MM/yyyy')}"></span>
 
                                 </div>
 
@@ -272,6 +274,7 @@
                             </div>
                             <!-- post title start -->
                             <div class="post-content">
+                                <h4 class="widget-title text-center" style="margin-bottom: 17px;" th:text="${post.foodName}"></h4>
                                 <p class="post-desc" th:text="${post.description}">
                                 </p>
                                 <div class="post-thumb-gallery img-gallery">
@@ -289,22 +292,39 @@
 
                                 <div class="post-meta">
                                     <!--button like post-->
-                                    <button class="post-meta-like" th:attr="onclick=|likePost('${post.id}')|" >
-                                        <i class="bi bi-heart-beat"></i>
-                                        <span th:id="'likeCount_' + ${post.id}" th:text="${post.likeCount}"></span>
+                                    <button class="post-meta-like" th:id="'likeBtn_' + ${post.id}" style="position: relative;display: inline-block" th:attr="onclick=|likePost('${post.id}')|">
+                                        <img class="heart" src="client_assets/images/icons/heart.png" style="position: absolute;top: 0;left: 0;z-index: 1" alt="">
+                                        <th:block th:each="like : ${post.likes}">
+                                            <img th:if="${like.user==user}" class="heart-color" style="position: absolute;top: 0;left: 0;z-index: 0" src="client_assets/images/icons/heart-color.png" alt="">
+                                        </th:block>
+                                            <span style="margin-left: 20px;" th:id="'likeCount_' + ${post.id}" th:text="${post.likeCount}"></span>
                                     </button>
                                     <script>
                                         function likePost(id) {
                                             $.ajax({
-                                                url: '/api/like' ,
+                                                url: '/api/like',
                                                 type: 'GET',
-                                                data: { id: id },
+                                                data: {id: id},
                                                 success: function (response) {
                                                     // Cập nhật số lượt like trên giao diện cho post cụ thể
+                                                    const buttonLike = document.querySelector('#likeBtn_' + id);
                                                     var likeCountSpan = document.querySelector('#likeCount_' + id);
-                                                    var likeCount = parseInt(likeCountSpan.innerText);
-                                                    likeCount++;
-                                                    likeCountSpan.innerText = likeCount.toString();
+                                                    if (response === true) {
+                                                        var likeCount = parseInt(likeCountSpan.innerText);
+                                                        likeCount++;
+                                                        likeCountSpan.innerText = likeCount.toString();
+                                                        const liked = `<img class="heart-color" style="position: absolute;top: 0;left: 0;z-index: 0" src="client_assets/images/icons/heart-color.png" alt="">`;
+                                                        buttonLike.innerHTML+=liked;
+                                                    } else {
+                                                        const imgColor =buttonLike.querySelectorAll('.heart-color');
+                                                        for (let i=0;i<imgColor.length;i++) {
+                                                            buttonLike.removeChild(imgColor[i])
+
+                                                        }
+                                                        var likeCount = parseInt(likeCountSpan.innerText);
+                                                        likeCount--;
+                                                        likeCountSpan.innerText = likeCount.toString();
+                                                    }
 
                                                 },
                                                 error: function (error) {
@@ -313,7 +333,7 @@
                                             });
                                         }
                                     </script>
-                                  <!--  share - comments-->
+                                    <!--  share - comments-->
                                     <ul class="comment-share-meta">
                                         <li>
                                             <button class="post-comment">

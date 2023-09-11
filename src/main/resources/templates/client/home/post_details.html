@@ -105,8 +105,8 @@
                         <h4 class="widget-title">Các Bước Thực Hiện</h4>
                         <th:block th:each="step : ${post.steps}">
                             <div class="form-group mgb">
-                                <h6 th:text="'Bước '+${step.stepNumber}"></h6>
-                                <p class="post-desc mgt mgb" th:text="${step.stepDescription}">
+                                <h6 style="font-style: italic; font-weight: bold" th:text="'Bước '+${step.stepNumber}"></h6>
+                                <p class="post-desc mgt mgb" style="font-size: 17px;" th:text="${step.stepDescription}">
                                 </p>
                                 <div class="mgt">
                                     <div

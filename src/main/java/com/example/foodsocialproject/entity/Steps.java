@@ -35,6 +35,17 @@ public class Steps {
     @JoinColumn(name = "recipe_id", referencedColumnName = "id")
     private Posts recipe;
 
+    @Override
+    public String toString() {
+        return "Steps{" +
+                "id=" + id +
+                ", stepNumber=" + stepNumber +
+                ", stepDescription='" + stepDescription + '\'' +
+                ", stepImg='" + stepImg + '\'' +
+                ", recipe=" + recipe +
+                '}';
+    }
+
     @Transient
     public String getStepImagePath() {
         if (id == null||stepImg==null) {

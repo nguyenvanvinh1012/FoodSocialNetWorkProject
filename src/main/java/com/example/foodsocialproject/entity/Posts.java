@@ -71,5 +71,4 @@ public class Posts {
         }
         return "/post-images/" + id + "/" + image;
     }
-
 }

@@ -57,13 +57,23 @@ public class HomeController {
     public String profile(Principal p, Model model){
         String userEmail = p.getName();
         Users foundUser = userService.findbyEmail(userEmail).get();
-        List<Posts> userPosts = foundUser.getPosts().stream().filter(post -> post.getUser().getEmail().equals(userEmail)).toList();
+        return getString(model, foundUser);
+    }
+
+    @GetMapping("/profile/{id}")
+    public String seeProfile(@PathVariable("id") UUID id, Principal p, Model model){
+        Users foundUser = userService.findById(id);
+        return getString(model, foundUser);
+    }
+
+    private String getString(Model model, Users foundUser) {
+        List<Posts> listPosts = foundUser.getPosts().stream().sorted(Comparator.comparing(Posts::getCreatedAt,Comparator.reverseOrder())).collect(Collectors.toList());
         model.addAttribute("user",foundUser);
         model.addAttribute("userInfo",foundUser.getUserInfo());
-        model.addAttribute("listPosts",userPosts);
-       if (userPosts.isEmpty()){
-           model.addAttribute("listPostsEmpty",true);
-       }
+        model.addAttribute("listPosts",listPosts);
+        if (listPosts.isEmpty()){
+            model.addAttribute("listPostsEmpty",true);
+        }
         return "client/home/profile";
     }
 
@@ -124,11 +134,12 @@ public class HomeController {
                step.setStepImg(extraImageName);
                step.setStepNumber(count+1);
                step.setRecipe(recipe);
-
+                step.setStepDescription(recipe.getSteps().get(count).getStepDescription());
                stepsList.add(step);
            }
           count++;
        }
+
        recipe.setSteps(stepsList);
         recipe.setUser(foundUser);
         for (Ingredients ingredient:recipe.getIngredients()
@@ -158,6 +169,8 @@ public class HomeController {
     @GetMapping("/post-details/{id}")
     public String getPostDetails(@PathVariable("id") UUID id, Model model){
         Posts post = postsService.findByID(id);
+        List<Steps> stepsList = post.getSteps().stream().sorted(Comparator.comparing(Steps::getStepNumber)).toList();
+        post.setSteps(stepsList);
         model.addAttribute("post",post);
         return "client/home/post_details";
 

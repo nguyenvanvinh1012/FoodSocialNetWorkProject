@@ -130,4 +130,12 @@ public class UserServices implements TableService{
         verificationToken.setExpirationTime(verificationTokenTime.getTokenExpirationTime());
         return tokenRepository.save(verificationToken);
     }
+
+    public Users findById(UUID id) {
+        Optional<Users> result = userRepository.findById(id);
+        if (result.isPresent()){
+            return result.get();
+        }
+        else return null;
+    }
 }
